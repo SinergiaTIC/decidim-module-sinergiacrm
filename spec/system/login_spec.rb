@@ -10,7 +10,7 @@ describe "Login" do
     OmniAuth::AuthHash.new(
       provider: "sinergia_crm",
       uid: "Contacts:#{portal_id}",
-      info: { email: "john@example.org" },
+      info: { email: "john@example.org", name: "", nickname: "john" },
       extra: { raw_info: { portal_id:, portal_type: "Contacts", user: { id: portal_id, email: "john@example.org" } } }
     )
   end
@@ -39,9 +39,9 @@ describe "Login" do
       expect(page).to have_field("Your email", with: "john@example.org")
 
       within "#omniauth-register-form" do
+        expect(page).to have_field("Nickname", with: "john")
+
         fill_in "Your name", with: "John Doe"
-        # Decidim fails to create the user when the nickname is left empty
-        fill_in "Nickname", with: "john_doe"
         check :registration_user_tos_agreement
         check :registration_user_newsletter
         click_on "Complete profile"
@@ -50,6 +50,19 @@ describe "Login" do
       expect(page).to have_no_css("#omniauth-register-form")
       expect(page).to have_content("A message with a confirmation link has been sent to your email address")
       expect(Decidim::User.last.identities.pluck(:provider, :uid)).to eq([["sinergia_crm", "Contacts:#{portal_id}"]])
+      expect(Decidim::User.last.nickname).to eq("john")
+    end
+
+    context "when the participant is already registered" do
+      let(:user) { create(:user, :confirmed, organization:, email: "john@example.org") }
+      let!(:identity) { create(:identity, user:, provider: "sinergia_crm", uid: "Contacts:#{portal_id}") }
+
+      it "logs in without asking for the profile" do
+        click_on "Log in with SinergiaCRM"
+
+        expect(page).to have_content("Successfully authenticated")
+        expect(page).to have_no_content("Please complete your profile")
+      end
     end
   end
 

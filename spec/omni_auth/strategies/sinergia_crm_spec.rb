@@ -89,15 +89,15 @@ describe OmniAuth::Strategies::SinergiaCrm do
   end
 
   describe "info" do
-    it "returns the email" do
-      expect(strategy.info).to eq(email: "john@example.org")
+    it "returns the email, an empty name and a nickname taken from the email" do
+      expect(strategy.info).to eq(email: "john@example.org", name: "", nickname: "john")
     end
 
     context "when the token response has no email" do
       let(:user) { { "id" => portal_id } }
 
-      it "is empty" do
-        expect(strategy.info).to be_empty
+      it "only returns the empty name" do
+        expect(strategy.info).to eq(name: "")
       end
     end
   end

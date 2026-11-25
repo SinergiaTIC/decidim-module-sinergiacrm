@@ -21,9 +21,16 @@ module OmniAuth
       # Contact and account UUIDs can overlap, so include the portal type.
       uid { "#{raw_info["portal_type"]}:#{raw_info["portal_id"]}" }
 
+      # SinergiaCRM only returns the email. Decidim needs a name string on every
+      # login, so it is sent empty and the participant fills it in the registration
+      # form. The nickname is prefilled, as Decidim cannot register an empty one.
       info do
+        email = raw_info.dig("user", "email")
+
         {
-          email: raw_info.dig("user", "email")
+          email:,
+          name: "",
+          nickname: email.to_s.split("@").first
         }.compact
       end
 
