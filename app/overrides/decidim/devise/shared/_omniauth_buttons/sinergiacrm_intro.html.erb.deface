@@ -1,0 +1,5 @@
+<!-- insert_after "erb[silent]:contains('Devise.mappings[:user].omniauthable?')" -->
+
+<% if Decidim::Sinergiacrm.override_login?(current_organization) %>
+  <p class="login__sinergiacrm-intro"><%= t("decidim.sinergiacrm.login.intro", organization: current_organization_name) %></p>
+<% end %>

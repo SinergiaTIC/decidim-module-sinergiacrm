@@ -1,0 +1,7 @@
+<!-- replace "span.sr-only" -->
+
+<% if provider.to_sym == :sinergia_crm %>
+  <span class="<%= "sr-only" unless Decidim::Sinergiacrm.override_login?(current_organization) %>"><%= t("decidim.sinergiacrm.login.log_in") %></span>
+<% else %>
+  <span class="sr-only"><%= t("devise.shared.links.log_in_with_provider", provider: normalize_provider_name(provider).titleize) %></span>
+<% end %>

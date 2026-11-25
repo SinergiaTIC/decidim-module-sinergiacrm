@@ -1,0 +1,23 @@
+{
+  "name": "decidim-sinergiacrm",
+  "version": "0.1.0",
+  "description": "SinergiaCRM integration for Decidim: OAuth login, synchronization of contacts, relationship types and projects, and verifications based on them.",
+  "private": true,
+  "license": "AGPL-3.0-or-later",
+  "scripts": {
+    "lint": "eslint -c .eslintrc.json --no-error-on-unmatched-pattern --ignore-pattern app/packs/vendor --ext .js app/packs",
+    "stylelint": "stylelint app/packs/**/*.scss"
+  },
+  "dependencies": {
+    "@decidim/browserslist-config": "^0.32.3",
+    "@decidim/webpacker": "^0.32.3"
+  },
+  "devDependencies": {
+    "@decidim/dev": "^0.32.3",
+    "@decidim/eslint-config": "^0.32.3",
+    "@decidim/prettier-config": "^0.32.3",
+    "@decidim/stylelint-config": "^0.32.3"
+  },
+  "prettier": "@decidim/prettier-config",
+  "browserslist": ["extends @decidim/browserslist-config"]
+}

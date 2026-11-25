@@ -1,0 +1,21 @@
+---
+
+base_locale: en
+locales: [en]
+
+data:
+  external:
+    - "<%= Bundler.rubygems.find_name('decidim-core').first.full_gem_path %>/config/locales/%{locale}.yml"
+
+search:
+  paths:
+    - app
+    - lib
+  only:
+    - "*.rb"
+    - "*.erb"
+    - "*.deface"
+
+ignore_unused:
+
+ignore_missing:

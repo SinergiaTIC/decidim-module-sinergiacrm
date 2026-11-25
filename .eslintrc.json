@@ -1,0 +1,8 @@
+{
+  "extends": ["@decidim"],
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}

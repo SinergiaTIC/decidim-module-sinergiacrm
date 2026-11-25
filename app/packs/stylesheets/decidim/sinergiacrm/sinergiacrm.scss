@@ -1,0 +1,33 @@
+/* Decidim renders external (non SVG) provider icons with an inline display:none */
+.login__omniauth-button--sinergia img.external-icon {
+  @apply h-9 w-auto p-0.5 inline-block !important;
+}
+
+/* Login overridden with the big SinergiaCRM button */
+.login__sinergiacrm-intro {
+  @apply mt-10 text-xl text-gray-2;
+
+  ~ .login__omniauth {
+    .login__omniauth-button--sinergia {
+      @apply flex items-center justify-center gap-4 px-10 text-xl;
+
+      span {
+        @apply inline;
+      }
+    }
+  }
+
+  ~ .login__omniauth-separator {
+    @apply hidden;
+  }
+}
+
+/* The login modal only offers the SinergiaCRM button, the standard form stays in the login page */
+.login__modal:has(.login__sinergiacrm-intro) {
+  .form__wrapper,
+  .login__modal-remember,
+  .login__info,
+  [data-dialog-actions] {
+    @apply hidden;
+  }
+}
