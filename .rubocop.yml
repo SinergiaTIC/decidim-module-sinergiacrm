@@ -1,0 +1,9 @@
+inherit_gem:
+  decidim-dev: rubocop-decidim.yml
+
+AllCops:
+  Exclude:
+    - "spec/decidim_dummy_app*/**/*"
+    - "development_app/**/*"
+    - "node_modules/**/*"
+    - "vendor/bundle/**/*"

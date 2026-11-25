@@ -1,0 +1,9 @@
+---
+en:
+  decidim:
+    sinergiacrm:
+      login:
+        admin_access: Administration access
+        intro: To access the platform as a participant you must use your %{organization}
+          account
+        log_in: Log in with SinergiaCRM
