@@ -5,52 +5,70 @@ require "spec_helper"
 module Decidim
   module Sinergiacrm
     describe ContactRelationship do
-      subject { create(:sinergiacrm_contact_relationship, organization:) }
+      subject { build(:sinergiacrm_contact_relationship, organization:) }
 
       let(:organization) { create(:organization) }
 
       it { is_expected.to be_valid }
 
-      it "is valid without project" do
-        subject.project = nil
+      context "without project" do
+        before { subject.project = nil }
 
-        expect(subject).to be_valid
+        it { is_expected.to be_valid }
       end
 
-      it "is invalid without contact" do
-        subject.contact = nil
+      context "without contact" do
+        before { subject.contact = nil }
 
-        expect(subject).not_to be_valid
+        it { is_expected.not_to be_valid }
       end
 
-      it "is invalid without sinergiacrm_id" do
-        subject.sinergiacrm_id = nil
+      context "without sinergiacrm_id" do
+        before { subject.sinergiacrm_id = nil }
 
-        expect(subject).not_to be_valid
+        it { is_expected.not_to be_valid }
       end
 
-      it "does not repeat sinergiacrm_id inside an organization" do
-        duplicate = build(:sinergiacrm_contact_relationship, organization:, sinergiacrm_id: subject.sinergiacrm_id)
+      context "without organization" do
+        before { subject.organization = nil }
 
-        expect(duplicate).not_to be_valid
+        it { is_expected.not_to be_valid }
       end
 
-      it "allows the same sinergiacrm_id in another organization" do
-        other = build(:sinergiacrm_contact_relationship, organization: create(:organization), sinergiacrm_id: subject.sinergiacrm_id)
+      context "when there is a relationship with the same sinergiacrm_id in the same organization" do
+        before { create(:sinergiacrm_contact_relationship, organization:, sinergiacrm_id: subject.sinergiacrm_id) }
 
-        expect(other).to be_valid
+        it "is not valid" do
+          expect(subject).not_to be_valid
+          expect(subject.errors[:sinergiacrm_id]).to eq ["has already been taken"]
+        end
       end
 
-      it "is invalid with a contact of another organization" do
-        subject.contact = create(:sinergiacrm_contact, organization: create(:organization))
+      context "when there is a relationship with the same sinergiacrm_id in another organization" do
+        before do
+          other_organization = create(:organization)
+          create(:sinergiacrm_contact_relationship, organization: other_organization, sinergiacrm_id: subject.sinergiacrm_id)
+        end
 
-        expect(subject).not_to be_valid
+        it { is_expected.to be_valid }
       end
 
-      it "is invalid with a project of another organization" do
-        subject.project = create(:sinergiacrm_project, organization: create(:organization))
+      context "with a contact of another organization" do
+        before { subject.contact = create(:sinergiacrm_contact) }
 
-        expect(subject).not_to be_valid
+        it "is not valid" do
+          expect(subject).not_to be_valid
+          expect(subject.errors[:contact]).to eq ["is invalid"]
+        end
+      end
+
+      context "with a project of another organization" do
+        before { subject.project = create(:sinergiacrm_project) }
+
+        it "is not valid" do
+          expect(subject).not_to be_valid
+          expect(subject.errors[:project]).to eq ["is invalid"]
+        end
       end
 
       describe ".active" do

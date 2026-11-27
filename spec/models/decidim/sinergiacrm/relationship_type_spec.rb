@@ -5,28 +5,37 @@ require "spec_helper"
 module Decidim
   module Sinergiacrm
     describe RelationshipType do
-      subject { create(:sinergiacrm_relationship_type, organization:) }
+      subject { build(:sinergiacrm_relationship_type, organization:) }
 
       let(:organization) { create(:organization) }
 
       it { is_expected.to be_valid }
 
-      it "is invalid without key" do
-        subject.key = nil
+      context "without key" do
+        before { subject.key = nil }
 
-        expect(subject).not_to be_valid
+        it { is_expected.not_to be_valid }
       end
 
-      it "does not repeat key inside an organization" do
-        duplicate = build(:sinergiacrm_relationship_type, organization:, key: subject.key)
+      context "without organization" do
+        before { subject.organization = nil }
 
-        expect(duplicate).not_to be_valid
+        it { is_expected.not_to be_valid }
       end
 
-      it "allows the same key in another organization" do
-        other = build(:sinergiacrm_relationship_type, organization: create(:organization), key: subject.key)
+      context "when there is a relationship type with the same key in the same organization" do
+        before { create(:sinergiacrm_relationship_type, organization:, key: subject.key) }
 
-        expect(other).to be_valid
+        it "is not valid" do
+          expect(subject).not_to be_valid
+          expect(subject.errors[:key]).to eq ["has already been taken"]
+        end
+      end
+
+      context "when there is a relationship type with the same key in another organization" do
+        before { create(:sinergiacrm_relationship_type, key: subject.key) }
+
+        it { is_expected.to be_valid }
       end
     end
   end

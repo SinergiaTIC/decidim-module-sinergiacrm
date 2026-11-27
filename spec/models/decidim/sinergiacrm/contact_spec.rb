@@ -5,37 +5,46 @@ require "spec_helper"
 module Decidim
   module Sinergiacrm
     describe Contact do
-      subject { create(:sinergiacrm_contact, organization:) }
+      subject { build(:sinergiacrm_contact, organization:) }
 
       let(:organization) { create(:organization) }
 
       it { is_expected.to be_valid }
 
-      it "is invalid without sinergiacrm_id" do
-        subject.sinergiacrm_id = nil
+      context "without sinergiacrm_id" do
+        before { subject.sinergiacrm_id = nil }
 
-        expect(subject).not_to be_valid
+        it { is_expected.not_to be_valid }
       end
 
-      it "does not repeat sinergiacrm_id inside an organization" do
-        duplicate = build(:sinergiacrm_contact, organization:, sinergiacrm_id: subject.sinergiacrm_id)
+      context "without organization" do
+        before { subject.organization = nil }
 
-        expect(duplicate).not_to be_valid
+        it { is_expected.not_to be_valid }
       end
 
-      it "allows the same sinergiacrm_id in another organization" do
-        other = build(:sinergiacrm_contact, organization: create(:organization), sinergiacrm_id: subject.sinergiacrm_id)
+      context "when there is a contact with the same sinergiacrm_id in the same organization" do
+        before { create(:sinergiacrm_contact, organization:, sinergiacrm_id: subject.sinergiacrm_id) }
 
-        expect(other).to be_valid
+        it "is not valid" do
+          expect(subject).not_to be_valid
+          expect(subject.errors[:sinergiacrm_id]).to eq ["has already been taken"]
+        end
+      end
+
+      context "when there is a contact with the same sinergiacrm_id in another organization" do
+        before { create(:sinergiacrm_contact, sinergiacrm_id: subject.sinergiacrm_id) }
+
+        it { is_expected.to be_valid }
       end
 
       it "destroys its contact relationships" do
         create(:sinergiacrm_contact_relationship, contact: subject, organization:)
 
-        expect { subject.destroy }.to change(Decidim::Sinergiacrm::ContactRelationship, :count).by(-1)
+        expect { subject.destroy }.to change(ContactRelationship, :count).by(-1)
       end
 
-      describe "status" do
+      context "with active and inactive relationships" do
         let!(:active_contact) { create(:sinergiacrm_contact, organization:) }
         let!(:inactive_contact) { create(:sinergiacrm_contact, organization:) }
         let!(:contact_without_relationships) { create(:sinergiacrm_contact, organization:) }
@@ -46,24 +55,32 @@ module Decidim
           create(:sinergiacrm_contact_relationship, :inactive, contact: inactive_contact, organization:)
         end
 
-        it "is active with at least one active relationship" do
-          expect(active_contact).to be_active
-          expect(inactive_contact).not_to be_active
-          expect(contact_without_relationships).not_to be_active
+        describe "#active?" do
+          it "is true with at least one active relationship" do
+            expect(active_contact).to be_active
+            expect(inactive_contact).not_to be_active
+            expect(contact_without_relationships).not_to be_active
+          end
         end
 
-        it "filters active contacts" do
-          expect(described_class.active).to contain_exactly(active_contact)
+        describe ".active" do
+          it "returns the contacts with an active relationship" do
+            expect(described_class.active).to contain_exactly(active_contact)
+          end
         end
 
-        it "filters inactive contacts" do
-          expect(described_class.inactive).to contain_exactly(inactive_contact, contact_without_relationships)
+        describe ".inactive" do
+          it "returns the contacts without an active relationship" do
+            expect(described_class.inactive).to contain_exactly(inactive_contact, contact_without_relationships)
+          end
         end
 
-        it "filters by any status" do
-          expect(described_class.with_any_status("active")).to contain_exactly(active_contact)
-          expect(described_class.with_any_status("inactive")).to contain_exactly(inactive_contact, contact_without_relationships)
-          expect(described_class.with_any_status("active", "inactive").count).to eq(3)
+        describe ".with_any_status" do
+          it "returns the contacts of the given statuses" do
+            expect(described_class.with_any_status("active")).to contain_exactly(active_contact)
+            expect(described_class.with_any_status("inactive")).to contain_exactly(inactive_contact, contact_without_relationships)
+            expect(described_class.with_any_status("active", "inactive").count).to eq(3)
+          end
         end
       end
 

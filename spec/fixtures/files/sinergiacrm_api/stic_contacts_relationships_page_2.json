@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "total-pages": 2,
+    "records-on-this-page": 1
+  },
+  "data": [
+    {
+      "type": "stic_Contacts_Relationships",
+      "id": "a1b2c3d4-0003-4000-8000-000000000003",
+      "attributes": {
+        "name": "Fake Person Two - Member",
+        "date_entered": "2026-11-21T12:15:00+01:00",
+        "date_modified": "2026-11-21T12:15:00+01:00",
+        "modified_user_id": "1",
+        "modified_by_name": "Admin User",
+        "created_by": "1",
+        "created_by_name": "Admin User",
+        "description": "",
+        "deleted": "0",
+        "created_by_link": "",
+        "modified_user_link": "",
+        "assigned_user_id": "1",
+        "assigned_user_name": "Admin User",
+        "assigned_user_link": "",
+        "SecurityGroups": "",
+        "securitygroups_name": "",
+        "start_date": "2026-02-01",
+        "end_date": "",
+        "relationship_type": "member",
+        "end_reason": "",
+        "other_end_reasons": "",
+        "role": "",
+        "active": "1",
+        "decidim_excluded": "0",
+        "stic_contacts_relationships_contacts": "",
+        "stic_contacts_relationships_contacts_name": "Fake Person Two",
+        "stic_contacts_relationships_contactscontacts_ida": "c0ffee00-0002-4000-8000-000000000002",
+        "stic_contacts_relationships_project": "",
+        "stic_contacts_relationships_project_name": "Fake Project Alpha",
+        "stic_contacts_relationships_projectproject_ida": "beefcafe-0001-4000-8000-000000000001",
+        "stic_centers_stic_contacts_relationships": "",
+        "stic_centers_stic_contacts_relationships_name": "",
+        "stic_centers_stic_contacts_relationshipsstic_centers_ida": ""
+      },
+      "relationships": {
+        "Contacts": {
+          "links": {
+            "related": "V8/module/stic_Contacts_Relationships/a1b2c3d4-0003-4000-8000-000000000003/relationships/stic_contacts_relationships_contacts"
+          }
+        },
+        "Project": {
+          "links": {
+            "related": "V8/module/stic_Contacts_Relationships/a1b2c3d4-0003-4000-8000-000000000003/relationships/stic_contacts_relationships_project"
+          }
+        },
+        "SecurityGroups": {
+          "links": {
+            "related": "V8/module/stic_Contacts_Relationships/a1b2c3d4-0003-4000-8000-000000000003/relationships/SecurityGroups"
+          }
+        },
+        "Users": {
+          "links": {
+            "related": "V8/module/stic_Contacts_Relationships/a1b2c3d4-0003-4000-8000-000000000003/relationships/created_by_link"
+          }
+        },
+        "stic_Centers": {
+          "links": {
+            "related": "V8/module/stic_Contacts_Relationships/a1b2c3d4-0003-4000-8000-000000000003/relationships/stic_centers_stic_contacts_relationships"
+          }
+        }
+      }
+    }
+  ],
+  "links": {
+    "first": "V8/module/stic_Contacts_Relationships?page[number]=1&page[size]=100",
+    "prev": "V8/module/stic_Contacts_Relationships?page[number]=1&page[size]=100",
+    "next": null,
+    "last": null
+  }
+}

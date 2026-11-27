@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "decidim/sinergiacrm/admin"
+require "decidim/sinergiacrm/api"
 require "decidim/sinergiacrm/engine"
 require "decidim/sinergiacrm/admin_engine"
 require "decidim/sinergiacrm/version"
@@ -19,6 +20,15 @@ module Decidim
       authorize_url: ENV["SINERGIA_CRM_AUTHORIZE_URL"].presence || "/index.php?entryPoint=sticPortalLogin",
       token_url: ENV["SINERGIA_CRM_TOKEN_URL"].presence || "/index.php?entryPoint=sticPortalOAuthToken",
       icon_path: ENV["SINERGIA_CRM_ICON"].presence || "media/images/sinergiacrm-icon.png"
+    }
+
+    # The API client used by the synchronization (OAuth2 client credentials grant).
+    mattr_accessor :api, default: {
+      enabled: ENV["SINERGIA_CRM_SITE"].present? && ENV["SINERGIA_CRM_API_CLIENT_ID"].present? && ENV["SINERGIA_CRM_API_CLIENT_SECRET"].present?,
+      site: ENV["SINERGIA_CRM_SITE"].presence,
+      client_id: ENV["SINERGIA_CRM_API_CLIENT_ID"].presence,
+      client_secret: ENV["SINERGIA_CRM_API_CLIENT_SECRET"].presence,
+      page_size: [ENV["SINERGIA_CRM_API_PAGE_SIZE"].to_i, 0].max.nonzero? || 100
     }
 
     # When enabled, the login shows a big SinergiaCRM button and the standard
