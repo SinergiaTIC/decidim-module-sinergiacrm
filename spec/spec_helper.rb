@@ -10,6 +10,8 @@ ENV.delete_if { |name, _value| name.start_with?("SINERGIA_CRM_") }
 ENV["SINERGIA_CRM_SITE"] = "https://crm.example.org"
 ENV["SINERGIA_CRM_CLIENT_ID"] = "sinergiacrm-test-client-id"
 ENV["SINERGIA_CRM_CLIENT_SECRET"] = "sinergiacrm-test-client-secret"
+ENV["SINERGIA_CRM_API_CLIENT_ID"] = "sinergiacrm-test-api-client-id"
+ENV["SINERGIA_CRM_API_CLIENT_SECRET"] = "sinergiacrm-test-api-client-secret"
 
 Decidim::Dev.dummy_app_path = File.expand_path(File.join(__dir__, "decidim_dummy_app"))
 

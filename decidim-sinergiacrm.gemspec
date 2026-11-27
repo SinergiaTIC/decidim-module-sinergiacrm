@@ -24,7 +24,9 @@ Gem::Specification.new do |s|
 
   s.files = Dir["{app,config,db,lib}/**/*", "LICENSE-AGPLv3.txt", "Rakefile", "package.json", "README.md"]
 
+  s.add_dependency "decidim-admin", Decidim::Sinergiacrm::COMPAT_DECIDIM_VERSION
   s.add_dependency "decidim-core", Decidim::Sinergiacrm::COMPAT_DECIDIM_VERSION
   s.add_dependency "deface", ">= 1.9"
+  s.add_dependency "faraday", "~> 2.14", ">= 2.14.3"
   s.add_dependency "omniauth-oauth2", "~> 1.8"
 end

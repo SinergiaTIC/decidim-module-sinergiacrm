@@ -1,0 +1,6 @@
+{
+  "error": "access_denied",
+  "error_description": "The resource owner or authorization server denied the request.",
+  "hint": "Access token could not be verified",
+  "message": "The resource owner or authorization server denied the request."
+}

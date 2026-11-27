@@ -1,0 +1,243 @@
+{
+  "data": {
+    "type": "fields",
+    "attributes": {
+      "id": {
+        "type": "id",
+        "required": true,
+        "dbType": "id"
+      },
+      "name": {
+        "type": "name",
+        "dbType": "varchar",
+        "len": 255,
+        "required": "0"
+      },
+      "date_entered": {
+        "type": "datetime",
+        "options": "date_range_search_dom",
+        "required": false,
+        "dbType": "datetime"
+      },
+      "date_modified": {
+        "type": "datetime",
+        "options": "date_range_search_dom",
+        "required": false,
+        "dbType": "datetime"
+      },
+      "modified_user_id": {
+        "type": "assigned_user_name",
+        "dbType": "id",
+        "required": false
+      },
+      "modified_by_name": {
+        "type": "relate",
+        "source": "non-db",
+        "required": false,
+        "dbType": "relate"
+      },
+      "created_by": {
+        "type": "assigned_user_name",
+        "dbType": "id",
+        "required": false
+      },
+      "created_by_name": {
+        "type": "relate",
+        "source": "non-db",
+        "required": false,
+        "dbType": "relate"
+      },
+      "description": {
+        "type": "text",
+        "required": false,
+        "dbType": "text"
+      },
+      "deleted": {
+        "type": "bool",
+        "default": "0",
+        "required": false,
+        "dbType": "bool"
+      },
+      "created_by_link": {
+        "type": "link",
+        "relationship": "stic_contacts_relationships_created_by",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "modified_user_link": {
+        "type": "link",
+        "relationship": "stic_contacts_relationships_modified_user",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "assigned_user_id": {
+        "type": "relate",
+        "dbType": "id",
+        "required": false
+      },
+      "assigned_user_name": {
+        "type": "relate",
+        "source": "non-db",
+        "required": false,
+        "dbType": "relate"
+      },
+      "assigned_user_link": {
+        "type": "link",
+        "relationship": "stic_contacts_relationships_assigned_user",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "SecurityGroups": {
+        "type": "link",
+        "relationship": "securitygroups_stic_contacts_relationships",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "securitygroups_name": {
+        "default": true,
+        "type": "relate",
+        "source": "non-db",
+        "required": false,
+        "dbType": "relate"
+      },
+      "start_date": {
+        "required": 0,
+        "type": "date",
+        "comments": "",
+        "options": "date_range_search_dom",
+        "dbType": "date"
+      },
+      "end_date": {
+        "required": 0,
+        "type": "date",
+        "comments": "",
+        "options": "date_range_search_dom",
+        "dbType": "date"
+      },
+      "relationship_type": {
+        "required": 1,
+        "type": "enum",
+        "comments": "",
+        "len": 100,
+        "options": "stic_contacts_relationships_types_list",
+        "default": "",
+        "dbType": "enum"
+      },
+      "end_reason": {
+        "required": 0,
+        "type": "enum",
+        "comments": "",
+        "len": 100,
+        "options": "stic_contacts_relationships_end_reasons_list",
+        "dbType": "enum",
+        "option_items": {
+          "": "",
+          "decease": "Decease",
+          "disagreement": "Disagreement",
+          "economy": "Economic reasons",
+          "personal": "Personal reasons",
+          "other": "Other"
+        }
+      },
+      "other_end_reasons": {
+        "required": 0,
+        "type": "varchar",
+        "comments": "",
+        "len": "255",
+        "dbType": "varchar"
+      },
+      "role": {
+        "required": 0,
+        "type": "enum",
+        "comments": "",
+        "len": 100,
+        "options": "stic_contacts_relationships_project_roles_list",
+        "dbType": "enum",
+        "option_items": {
+          "": "",
+          "coordinator": "Coordinator",
+          "technician": "Technician",
+          "user": "User",
+          "volunteer": "Volunteer"
+        }
+      },
+      "active": {
+        "required": false,
+        "type": "bool",
+        "comments": "",
+        "dbType": "bool"
+      },
+      "decidim_excluded": {
+        "required": false,
+        "type": "bool",
+        "default": 0,
+        "comments": "",
+        "dbType": "bool"
+      },
+      "stic_contacts_relationships_contacts": {
+        "type": "link",
+        "relationship": "stic_contacts_relationships_contacts",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "stic_contacts_relationships_contacts_name": {
+        "type": "relate",
+        "source": "non-db",
+        "required": 1,
+        "dbType": "relate"
+      },
+      "stic_contacts_relationships_contactscontacts_ida": {
+        "type": "link",
+        "relationship": "stic_contacts_relationships_contacts",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "stic_contacts_relationships_project": {
+        "type": "link",
+        "relationship": "stic_contacts_relationships_project",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "stic_contacts_relationships_project_name": {
+        "type": "relate",
+        "source": "non-db",
+        "required": false,
+        "dbType": "relate"
+      },
+      "stic_contacts_relationships_projectproject_ida": {
+        "type": "link",
+        "relationship": "stic_contacts_relationships_project",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "stic_centers_stic_contacts_relationships": {
+        "type": "link",
+        "relationship": "stic_centers_stic_contacts_relationships",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      },
+      "stic_centers_stic_contacts_relationships_name": {
+        "type": "relate",
+        "source": "non-db",
+        "required": false,
+        "dbType": "relate"
+      },
+      "stic_centers_stic_contacts_relationshipsstic_centers_ida": {
+        "type": "link",
+        "relationship": "stic_centers_stic_contacts_relationships",
+        "source": "non-db",
+        "required": false,
+        "dbType": "link"
+      }
+    }
+  }
+}
